@@ -1,8 +1,9 @@
 /*
- *    ___ ___ _
- *  / __/ __| |
- * | (_ \__ \ |__
- * \___|___/____|
+ *    ____ ____  _
+ *  / ___/ ___|| |
+ * | |  _\___ \| |
+ * | |_| |___) | |___
+ *  \____|____/|_____|
  *
  * GShellLight. A simple shell. The program takes a command from the user and executes it.
  * The program is terminated when the user enters the command 'exit'.
