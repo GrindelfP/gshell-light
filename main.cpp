@@ -20,7 +20,7 @@ int main() {
 
     while (true) {
         char buffer[CMD_SIZE];
-        char* command[10];
+        char *command[10];
 
         std::cout << "Enter the command (to stop enter 'exit'): ";
         std::cin.getline(buffer, CMD_SIZE);
@@ -32,9 +32,8 @@ int main() {
         splitCommand(buffer, command);
 
         if (!fork()) {
-            // execlp(buffer, buffer, NULL);
             execvp(command[0], command);
-            std::cout << "Command not found!" << std::endl; // if command not found
+            std::cout << "Command not found!" << std::endl;
         } else {
             wait(nullptr);
         }

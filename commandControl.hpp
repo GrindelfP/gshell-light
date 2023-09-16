@@ -19,9 +19,9 @@
 
 #define SEPARATOR " "
 
-void splitCommand(char* buffer, char *commandContainer[]);
+void splitCommand(char *buffer, char *commandContainer[]);
 
-void splitCommand(char* buffer, char *commandContainer[]) {
+void splitCommand(char *buffer, char *commandContainer[]) {
     int i = 0;
     commandContainer[0] = strtok(buffer, SEPARATOR);
     while (commandContainer[i] != nullptr) {
