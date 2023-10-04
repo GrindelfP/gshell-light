@@ -24,10 +24,11 @@ void fileCreate() {
     close(fd);
 }
 
-int defineStreamRedirection(const char *commandContainer) {
+int defineStreamRedirection(char **commandContainer) {
+
     int streamRedirection = -1;
     for (int i = 0; commandContainer[i]; i++) {
-        if (strcmp(commandContainer, ">") == 0) {
+        if (strcmp(commandContainer[i], ">") == 0) {
             streamRedirection = i;
         }
     }

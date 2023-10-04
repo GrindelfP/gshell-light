@@ -33,12 +33,15 @@ int main() {
 
         splitCommand(buffer, command);
 
-        int streamRedirection = defineStreamRedirection(*command);
+        int streamRedirection = defineStreamRedirection(command);
+
+        std::cout << "Stream redirection: " << streamRedirection << "\n";
 
         int childPid = fork();
 
         if (!childPid) {
             if (streamRedirection > 0) {
+                std::cout << "Stream redirection\n";
                 int f1 = open(command[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
                 dup2(f1, 1);
                 command[streamRedirection] = nullptr;
@@ -63,7 +66,6 @@ int run(char **commands, int childPid) {
     char *mainCommand = commands[0];
     if (strcmp(mainCommand, nativeCommands[0]) == 0) {
         std::cout << "gls is running\n";
-        char *directoryContents[CONTENT_LIST_SIZE];
         int glsResult = gls(++commands);
         if (glsResult == ERROR) return error(--commands[0]);
     }
@@ -72,7 +74,7 @@ int run(char **commands, int childPid) {
 }
 
 int error(char *commandName) {
-    std::cout << "Error occurred while completing\n";
+    std::cout << "Error occurred while completing" << commandName << "command" << std::endl;
 
     return -1;
 }
