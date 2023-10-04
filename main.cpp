@@ -15,6 +15,8 @@
 
 #include "mainHeader.hpp"
 #include "commandControl.hpp"
+#include "fileControl.hpp"
+#include "gls.hpp"
 
 int main() {
 
@@ -31,8 +33,21 @@ int main() {
 
         splitCommand(buffer, command);
 
+        int streamRedirection = defineStreamRedirection(*command);
+
         if (!fork()) {
-            execvp(command[0], command);
+            if (streamRedirection > 0) {
+                int f1 = open(command[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
+                dup2(f1, 1);
+                command[streamRedirection] = nullptr;
+            }
+
+            if (filterNativeCommands(command)) {
+                std::cout << "Native\n";
+                run(command);
+            } else {
+                execvp(command[0], command);
+            }
             std::cout << "Command not found!" << std::endl;
         } else {
             wait(nullptr);
@@ -40,4 +55,27 @@ int main() {
     }
 
     return 0;
+}
+
+int run(char **commands) {
+    char *mainCommand = commands[0];
+    if (strcmp(mainCommand, nativeCommands[0]) == 0) {
+        std::cout << "gls is running\n";
+        char *directoryContents[CONTENT_LIST_SIZE];
+        int glsResult = glsRun(++commands, directoryContents);
+        if (glsResult == ERROR) return error(--commands[0]);
+
+        int i = 0;
+        while (directoryContents[i] != nullptr) {
+            std::cout << directoryContents[i++] << '\n';
+        }
+    }
+
+    return 0;
+}
+
+int error(char *commandName) {
+    std::cout << "Error occurred while completing\n";
+
+    return -1;
 }

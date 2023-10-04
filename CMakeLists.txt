@@ -18,4 +18,5 @@ add_executable(GShellLight main.cpp
         mainHeader.hpp
         commandControl.hpp
         fileControl.hpp
-        tmp.cpp)
+        gls.hpp
+        nativeCommands.hpp)

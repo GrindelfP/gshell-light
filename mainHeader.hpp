@@ -18,7 +18,13 @@
 #include <iostream>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/file.h>
 
 #define CMD_SIZE 100
+#define ERROR (-1)
+
+int run(char **commands);
+
+int error(char *commandName);
 
 #endif //G_SHELL_LIGHT_MAIN_HEADER_HPP
