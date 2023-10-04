@@ -23,7 +23,7 @@
 #define CMD_SIZE 100
 #define ERROR (-1)
 
-int run(char **commands);
+int run(char **commands, int childPid);
 
 int error(char *commandName);
 

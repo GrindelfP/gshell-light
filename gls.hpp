@@ -22,28 +22,19 @@
 #define CURRENT_DIRECTORY "."
 #define CONTENT_LIST_SIZE 1024
 
-int gls(const char *directoryName, char **contentList) {
+int gls(char **argv) {
 
-    std::cout << directoryName << std::endl;
+    char *directoryName = argv[0];
+
     if (directoryName == nullptr) directoryName = CURRENT_DIRECTORY;
 
     DIR *directory = opendir(directoryName);
     struct dirent *contentEntry = readdir(directory);
-    int i = 0;
 
     while (contentEntry != nullptr) {
         std::cout << contentEntry->d_name << "\n";
         contentEntry = readdir(directory);
     }
-
-    return 0;
-}
-
-int glsRun(char **argv, char **dirContents) {
-    if (argv[1] != nullptr) return ERROR;
-    std::cout << "gls is running\n";
-
-    gls(argv[0] , dirContents);
 
     return 0;
 }

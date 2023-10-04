@@ -35,7 +35,9 @@ int main() {
 
         int streamRedirection = defineStreamRedirection(*command);
 
-        if (!fork()) {
+        int childPid = fork();
+
+        if (!childPid) {
             if (streamRedirection > 0) {
                 int f1 = open(command[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
                 dup2(f1, 1);
@@ -44,11 +46,11 @@ int main() {
 
             if (filterNativeCommands(command)) {
                 std::cout << "Native\n";
-                run(command);
+                run(command, childPid);
             } else {
                 execvp(command[0], command);
+                std::cout << "Command not found!" << std::endl;
             }
-            std::cout << "Command not found!" << std::endl;
         } else {
             wait(nullptr);
         }
@@ -57,18 +59,13 @@ int main() {
     return 0;
 }
 
-int run(char **commands) {
+int run(char **commands, int childPid) {
     char *mainCommand = commands[0];
     if (strcmp(mainCommand, nativeCommands[0]) == 0) {
         std::cout << "gls is running\n";
         char *directoryContents[CONTENT_LIST_SIZE];
-        int glsResult = glsRun(++commands, directoryContents);
+        int glsResult = gls(++commands);
         if (glsResult == ERROR) return error(--commands[0]);
-
-        int i = 0;
-        while (directoryContents[i] != nullptr) {
-            std::cout << directoryContents[i++] << '\n';
-        }
     }
 
     return 0;
