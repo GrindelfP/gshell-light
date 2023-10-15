@@ -15,15 +15,16 @@
 #ifndef G_SHELL_LIGHT_MAIN_HEADER_HPP
 #define G_SHELL_LIGHT_MAIN_HEADER_HPP
 
-#include <iostream>
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/file.h>
+#include "common.h"
 
-#define CMD_SIZE 100
 #define ERROR (-1)
+#define perpetual while (1)
 
-int run(char **commands, int childPid);
+int run(char commands[ARG_SIZE][CMD_SIZE], int childPid);
 
 int error(char *commandName);
 

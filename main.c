@@ -13,19 +13,27 @@
  *
  */
 
-#include "mainHeader.hpp"
-#include "commandControl.hpp"
-#include "fileControl.hpp"
+#include "mainHeader.h"
+#include "commandControl.h"
+#include "fileControl.h"
 #include "gls.h"
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 int main() {
 
-    while (true) {
+    perpetual {
         char buffer[CMD_SIZE];
-        char *command[10];
+        char command[ARG_SIZE][CMD_SIZE];
 
-        std::cout << "Enter the command (to stop enter 'exit'): ";
-        std::cin.getline(buffer, CMD_SIZE);
+        printf("Enter the command (to stop enter 'exit'): ");
+        fgets(buffer, CMD_SIZE, stdin);
+
+        char *newline = strchr(buffer, '\n');
+        if (newline) *newline = 0;
 
         if (strcmp(buffer, "exit") == 0) {
             break;
@@ -41,28 +49,28 @@ int main() {
             if (streamRedirection > 0) {
                 int f1 = open(command[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
                 dup2(f1, 1);
-                command[streamRedirection] = nullptr;
+                strcpy(command[streamRedirection], "\0");
             }
 
             if (filterNativeCommands(command)) {
                 run(command, childPid);
             } else {
                 execvp(command[0], command);
-                std::cout << "Command not found!" << std::endl;
+                printf("Command not found!\n");
             }
         } else {
-            wait(nullptr);
+            wait(NULL);
         }
     }
 
     return 0;
 }
 
-int run(char **commands, int childPid) {
+int run(char commands[ARG_SIZE][CMD_SIZE], int childPid) {
     char *mainCommand = commands[0];
     if (strcmp(mainCommand, nativeCommands[0]) == 0) {
-        std::cout << "gls is running\n";
-        int glsResult = gls(commands, 0);
+        printf("gls is running\n");
+        int glsResult = gls(commands);
         if (glsResult == ERROR) return error(commands[0]);
     }
 
@@ -70,7 +78,7 @@ int run(char **commands, int childPid) {
 }
 
 int error(char *commandName) {
-    std::cout << "Error occurred while completing" << commandName << "command" << std::endl;
+    printf("Error occurred while completing %s command\n", commandName);
 
     return -1;
 }

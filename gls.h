@@ -17,22 +17,22 @@
 #define G_SHELL_LIGHT_GLS_HPP
 
 #include <sys/dir.h>
-#include "mainHeader.hpp"
+#include "mainHeader.h"
 
 #define CURRENT_DIRECTORY "."
 #define CONTENT_LIST_SIZE 1024
 
-int gls(char **argv) {
+int gls(char argv[ARG_SIZE][CMD_SIZE]) {
 
     char *directoryName = argv[0];
 
-    if (directoryName == nullptr) directoryName = CURRENT_DIRECTORY;
+    if (directoryName == NULL) directoryName = CURRENT_DIRECTORY;
 
     DIR *directory = opendir(directoryName);
     struct dirent *contentEntry = readdir(directory);
 
-    while (contentEntry != nullptr) {
-        std::cout << contentEntry->d_name << "\n";
+    while (contentEntry != NULL) {
+        printf("%s\n", contentEntry->d_name);
         contentEntry = readdir(directory);
     }
 

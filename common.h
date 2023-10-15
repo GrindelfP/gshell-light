@@ -5,11 +5,14 @@
 #ifndef G_SHELL_LIGHT_COMMON_H
 #define G_SHELL_LIGHT_COMMON_H
 
-#include <cstring>
+#include <string.h>
+
+#define CMD_SIZE 100
+#define ARG_SIZE 10
 
 int contains(char **array, char *element) {
     int i = 0;
-    while (array[i] != nullptr) {
+    while (array[i] != NULL) {
         if (strcmp(array[i], element) == 0) {
             return 1;
         }

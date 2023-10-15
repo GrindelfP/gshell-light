@@ -16,7 +16,7 @@
 #define G_SHELL_LIGHT_FILE_CONTROL_HPP
 
 #include <fcntl.h>
-#include "mainHeader.hpp"
+#include "mainHeader.h"
 
 void fileCreate() {
     int fd = open("bb", O_CREAT | O_WRONLY, 0666);
@@ -24,7 +24,7 @@ void fileCreate() {
     close(fd);
 }
 
-int defineStreamRedirection(char **commandContainer) {
+int defineStreamRedirection(char commandContainer[ARG_SIZE][CMD_SIZE]) {
 
     int streamRedirection = -1;
     for (int i = 0; commandContainer[i]; i++) {
