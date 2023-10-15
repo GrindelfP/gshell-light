@@ -1,5 +1,5 @@
 == GShell Light ==
 
-=== Description ==
+== Description ==
 This is a simple shell project that is dedicated to studying the principles of the shell's operation.
 
