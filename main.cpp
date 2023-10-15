@@ -16,7 +16,7 @@
 #include "mainHeader.hpp"
 #include "commandControl.hpp"
 #include "fileControl.hpp"
-#include "gls.hpp"
+#include "gls.h"
 
 int main() {
 
@@ -35,20 +35,16 @@ int main() {
 
         int streamRedirection = defineStreamRedirection(command);
 
-        std::cout << "Stream redirection: " << streamRedirection << "\n";
-
         int childPid = fork();
 
         if (!childPid) {
             if (streamRedirection > 0) {
-                std::cout << "Stream redirection\n";
                 int f1 = open(command[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
                 dup2(f1, 1);
                 command[streamRedirection] = nullptr;
             }
 
             if (filterNativeCommands(command)) {
-                std::cout << "Native\n";
                 run(command, childPid);
             } else {
                 execvp(command[0], command);
@@ -66,8 +62,8 @@ int run(char **commands, int childPid) {
     char *mainCommand = commands[0];
     if (strcmp(mainCommand, nativeCommands[0]) == 0) {
         std::cout << "gls is running\n";
-        int glsResult = gls(++commands);
-        if (glsResult == ERROR) return error(--commands[0]);
+        int glsResult = gls(commands, 0);
+        if (glsResult == ERROR) return error(commands[0]);
     }
 
     return 0;
