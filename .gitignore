@@ -2,3 +2,4 @@ cmake-build-debug
 tmp.cpp
 *.out
 .idea
+dire
