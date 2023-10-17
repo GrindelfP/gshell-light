@@ -27,7 +27,7 @@
  */
 int defineStreamRedirection(char commandContainer[ARG_SIZE][CMD_SIZE]) {
     int streamRedirection = contains(commandContainer, REDIRECTION_SYMBOL);
-    printf("streamRedirection: %d\n", streamRedirection);
+
     return streamRedirection;
 }
 

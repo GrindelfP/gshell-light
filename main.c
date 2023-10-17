@@ -27,17 +27,11 @@ int main() {
             break;
         }
 
-        /*for (int i = 0; i < ARG_SIZE; ++i) {
-            printf("%d) %s\n", i, commands[i]);
-        }
-
-        printf("Command: %s\n", commands[0]);
-
         int streamRedirection = defineStreamRedirection(commands);
 
         printf("Stream redirection: %d\n", streamRedirection);
 
-        int childPid = fork();
+        /*int childPid = fork();
 
         printf("Child pid: %d\n", childPid);
 
