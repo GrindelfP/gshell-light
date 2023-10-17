@@ -30,11 +30,7 @@
 #define ERROR (-1)
 #define REALLOCATION_ERROR (-2)
 #define perpetual while (1)
-#define STOP "stop"
-
-int stop(char **commands) {
-    return strcmp(commands[0], STOP) == 0;
-}
+#define EXIT "exit"
 
 int cleaner(char **commands) {
     for (int i = 0; i < ARG_SIZE; i++) {

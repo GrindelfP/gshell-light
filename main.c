@@ -22,20 +22,12 @@ int main() {
 
         getArgumentsVector(commands);
 
-        for (int i = 0; i < ARG_SIZE; i++) {
-            if (strlen(commands[i]) > 0) {
-                printf("Command %d: %s\n", i, commands[i]);
-            }
-        }
-
-        /*printf("%lu", sizeof(commands) / sizeof(commands[0]));
-
-        if (stop(commands)) {
+        if (contains(commands, EXIT)) {
             printf("Stopping the program...\n");
             break;
         }
 
-        for (int i = 0; i < ARG_SIZE; ++i) {
+        /*for (int i = 0; i < ARG_SIZE; ++i) {
             printf("%d) %s\n", i, commands[i]);
         }
 
@@ -66,8 +58,8 @@ int main() {
             }
         } else {
             wait(NULL);
-        }
-        */
+        }*/
+
     }
 
     return 0;

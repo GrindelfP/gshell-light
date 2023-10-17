@@ -18,16 +18,13 @@
  * @param argument argument which is to be found
  * @return 1 if the argument is in the list, 0 otherwise
  */
-int contains(char args[ARG_SIZE][CMD_SIZE], char argument[CMD_SIZE]) {
+int contains(char commands[ARG_SIZE][CMD_SIZE], char argument[CMD_SIZE]) {
     int contains = 0;
-    int i = 0;
-    while (args[i] != NULL) {
-        printf("%d) entered while\n", i);
-        if (strcmp(args[i], argument) == 0) {
+    for (int i = 0; i < ARG_SIZE && strlen(commands[i]) > 0; i++) {
+        if (strcmp(commands[i], argument) == 0) {
             contains = 1;
             break;
         }
-        i++;
     }
 
     return contains;
