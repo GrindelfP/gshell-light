@@ -24,8 +24,8 @@
 
 int isArgument(const char *argument);
 
-int avoidHiddenFiles(char argv[ARG_SIZE][CMD_SIZE]) {
-    return contains(argv, "-a");
+int showHiddenFiles(char argv[ARG_SIZE][CMD_SIZE]) {
+    return contains(argv, "-a") || contains(argv, "-la");
 }
 
 int isHiddenFile(char *fileName) {
@@ -43,7 +43,7 @@ int gls(char argv[ARG_SIZE][CMD_SIZE]) {
     struct dirent *contentEntry = readdir(directory);
 
     while (contentEntry != NULL) {
-        if (avoidHiddenFiles(argv) && isHiddenFile(contentEntry->d_name)) {
+        if (!showHiddenFiles(argv) && isHiddenFile(contentEntry->d_name)) {
             contentEntry = readdir(directory);
         } else {
             printf("%s\n", contentEntry->d_name);

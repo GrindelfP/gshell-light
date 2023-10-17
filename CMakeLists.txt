@@ -21,4 +21,4 @@ add_executable(GShellLight main.c
         gls.h
         nativeCommands.h
         common.h
-        )
+)
