@@ -26,6 +26,25 @@
 #define SEPARATOR " "
 
 /**
+ * Trims the commands array to the first empty element
+ * @param commands vector of arguments
+ * @param trimmedCommands trimmed vector of arguments
+ * @return 0 if success
+ */
+int trim(char commands[ARG_SIZE][CMD_SIZE], char *trimmedCommands[ARG_SIZE]) {
+    int i;
+    for (i = 0; i < 10; ++i) {
+        if (commands[i][0] == '\0') {
+            break;
+        }
+        trimmedCommands[i] = commands[i];
+    }
+    trimmedCommands[i] = NULL;
+
+    return 0;
+}
+
+/**
  * Split the command into arguments vector.
  * @param buffer commands buffer
  * @param commandContainer command container where vector will be stored
@@ -47,10 +66,10 @@ int splitCommand(char buffer[INIT_LINE_SIZE], char commands[ARG_SIZE][CMD_SIZE],
 }
 /**
  * Get the arguments vector from the input line
- * @param args arguments vector
+ * @param commands arguments vector
  * @return 0 if success, -1 if error
  */
-int getArgumentsVector(char args[ARG_SIZE][CMD_SIZE]) {
+int getArgumentsVector(char commands[ARG_SIZE][CMD_SIZE]) {
     char buffer[INIT_LINE_SIZE];
     int commandsNumber = 0;
 
@@ -63,13 +82,13 @@ int getArgumentsVector(char args[ARG_SIZE][CMD_SIZE]) {
         buffer[length - 1] = '\0';
     }
 
-    if (splitCommand(buffer, args, &commandsNumber) == -1) {
+    if (splitCommand(buffer, commands, &commandsNumber) == -1) {
         return -1;
     }
 
-    // Trim the args array if needed
+    // Trim the commands array if needed
     for (int i = commandsNumber; i < ARG_SIZE; i++) {
-        args[i][0] = '\0';
+        commands[i][0] = '\0';
     }
 
     return 0;

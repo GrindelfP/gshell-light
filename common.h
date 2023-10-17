@@ -10,6 +10,7 @@
 
 #define CMD_SIZE 100
 #define ARG_SIZE 10
+#define TRIMMED_ARG_SIZE 11
 #define INIT_LINE_SIZE (CMD_SIZE * ARG_SIZE + ARG_SIZE)
 
 /**

@@ -28,20 +28,12 @@
 #include <stdlib.h>
 
 #define ERROR (-1)
-#define REALLOCATION_ERROR (-2)
 #define perpetual while (1)
 #define EXIT "exit"
 
-int cleaner(char **commands) {
-    for (int i = 0; i < ARG_SIZE; i++) {
-        free(commands[i]);
-    }
-    free(commands);
+int execute(char commands[ARG_SIZE][CMD_SIZE]);
 
-    return 0;
-}
-
-int run(char commands[ARG_SIZE][CMD_SIZE], int childPid);
+int executeNative(char commands[ARG_SIZE][CMD_SIZE]);
 
 int error(char *commandName);
 
