@@ -102,9 +102,8 @@ int getArgumentsVector(char commands[ARG_SIZE][CMD_SIZE]) {
  */
 int isNative(char commands[ARG_SIZE][CMD_SIZE]) {
     int isNative = 0;
-    int i = 0;
-    while (nativeCommands[i] != NULL) {
-        if (contains(commands, nativeCommands[i])) {
+    for (int i = 0; i < NATIVE_CMDS_SIZE; ++i) {
+        if (strcmp(commands[0], nativeCommands[i]) == 0) {
             isNative = 1;
             break;
         }

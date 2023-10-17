@@ -38,13 +38,12 @@ int main() {
                 strcpy(commands[streamRedirection], "\0");
             }*/
 
-            /*if (isNative(commands)) {
+            if (isNative(commands)) {
                 executeNative(commands);
-            } else {*/
-            execvp(trimmedCommands[0], trimmedCommands);
-            printf("Command not found!\n");
-
-            /*}*/
+            } else {
+                execvp(trimmedCommands[0], trimmedCommands);
+                printf("Command not found!\n");
+            }
         } else {
             wait(NULL);
         }
@@ -56,7 +55,6 @@ int main() {
 int executeNative(char commands[ARG_SIZE][CMD_SIZE]) {
     char *mainCommand = commands[0];
     if (strcmp(mainCommand, nativeCommands[0]) == 0) {
-        printf("gls is running\n");
         int glsResult = gls(commands);
         if (glsResult == ERROR) return error(commands[0]);
     }
