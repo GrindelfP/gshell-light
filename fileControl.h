@@ -18,21 +18,16 @@
 #include <fcntl.h>
 #include "mainHeader.h"
 
-void fileCreate() {
-    int fd = open("bb", O_CREAT | O_WRONLY, 0666);
-    write(fd, "Hello there!", 12);
-    close(fd);
-}
+#define REDIRECTION_SYMBOL ">"
 
+/**
+ * Check if the command contains a redirection symbol
+ * @param commandContainer command container
+ * @return 1 if redirection required, 0 if not
+ */
 int defineStreamRedirection(char commandContainer[ARG_SIZE][CMD_SIZE]) {
-
-    int streamRedirection = -1;
-    for (int i = 0; commandContainer[i]; i++) {
-        if (strcmp(commandContainer[i], ">") == 0) {
-            streamRedirection = i;
-        }
-    }
-
+    int streamRedirection = contains(commandContainer, REDIRECTION_SYMBOL);
+    printf("streamRedirection: %d\n", streamRedirection);
     return streamRedirection;
 }
 

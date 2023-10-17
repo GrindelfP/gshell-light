@@ -17,6 +17,6 @@
 
 #define NATIVE_CMDS_SIZE 2
 
-char *nativeCommands[NATIVE_CMDS_SIZE] = {"gls", "gcat"};
+char nativeCommands[NATIVE_CMDS_SIZE][CMD_SIZE] = {"gls", "gcat"};
 
 #endif //G_SHELL_LIGHT_NATIVE_COMMANDS_HPP

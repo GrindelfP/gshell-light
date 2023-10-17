@@ -15,14 +15,35 @@
 #ifndef G_SHELL_LIGHT_MAIN_HEADER_HPP
 #define G_SHELL_LIGHT_MAIN_HEADER_HPP
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>
 #include <sys/file.h>
 #include "common.h"
+#include "commandControl.h"
+#include "fileControl.h"
+#include "gls.h"
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <stdlib.h>
 
 #define ERROR (-1)
+#define REALLOCATION_ERROR (-2)
 #define perpetual while (1)
+#define STOP "stop"
+
+int stop(char **commands) {
+    return strcmp(commands[0], STOP) == 0;
+}
+
+int cleaner(char **commands) {
+    for (int i = 0; i < ARG_SIZE; i++) {
+        free(commands[i]);
+    }
+    free(commands);
+
+    return 0;
+}
 
 int run(char commands[ARG_SIZE][CMD_SIZE], int childPid);
 
