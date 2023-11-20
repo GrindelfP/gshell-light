@@ -31,8 +31,6 @@
 #define perpetual while (1)
 #define EXIT "exit"
 
-int execute(char commands[ARG_SIZE][CMD_SIZE]);
-
 int executeNative(char commands[ARG_SIZE][CMD_SIZE]);
 
 int error(char *commandName);

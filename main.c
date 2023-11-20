@@ -31,12 +31,14 @@ int main() {
 
         int streamRedirection = defineStreamRedirection(commands);
 
+        printf("Stream redirection: %d\n", streamRedirection);
+
         if (!fork()) {
-            /*if (streamRedirection) {
+            if (streamRedirection) {
                 int f1 = open(commands[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
                 dup2(f1, 1);
-                strcpy(commands[streamRedirection], "\0");
-            }*/
+                removeRedirectionArguments(commands, streamRedirection);
+            }
 
             if (isNative(commands)) {
                 executeNative(commands);

@@ -20,7 +20,6 @@
 #include "mainHeader.h"
 
 #define CURRENT_DIRECTORY "."
-#define CONTENT_LIST_SIZE 1024
 
 int isArgument(const char *argument);
 
@@ -32,6 +31,12 @@ int isHiddenFile(char *fileName) {
     return fileName[0] == '.' || strcmp(fileName, "..") == 0;
 }
 
+
+/**
+ * GShellLight: gls command. Similar to regular shell ls command.
+ * @param argv arguments vector
+ * @return 0 if success
+ */
 int gls(char argv[ARG_SIZE][CMD_SIZE]) {
 
     char *directoryName;
@@ -50,6 +55,8 @@ int gls(char argv[ARG_SIZE][CMD_SIZE]) {
             contentEntry = readdir(directory);
         }
     }
+
+    closedir(directory);
 
     return 0;
 }
