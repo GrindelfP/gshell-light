@@ -19,10 +19,10 @@
  * @param argument argument which is to be found
  * @return 1 if the argument is in the list, 0 otherwise
  */
-int contains(char commands[ARG_SIZE][CMD_SIZE], char argument[CMD_SIZE]) {
+int contains(char *const *argv, char argument[CMD_SIZE]) {
     int contains = 0;
-    for (int i = 0; i < ARG_SIZE && strlen(commands[i]) > 0; i++) {
-        if (strcmp(commands[i], argument) == 0) {
+    for (int i = 0; i < ARG_SIZE && strlen(argv[i]) > 0; i++) {
+        if (strcmp(argv[i], argument) == 0) {
             contains = 1;
             break;
         }

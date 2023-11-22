@@ -21,4 +21,5 @@ add_executable(gshell-light main.c
         gls.h
         nativeCommands.h
         common.h
+        glsMode.h
 )

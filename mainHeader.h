@@ -35,8 +35,40 @@
 #define ERROR (-1)
 #define WAIT_FOR_CHILD wait(NULL)
 
-int execna(const char *command, char * const *argv);
+/**
+ * Executes the provided command.
+ * @param command command name
+ * @param argv arguments vector
+ */
+void execute(const char *command, char *const *argv);
 
-void execute(const char *command, char * const *argv);
+/**
+ * Executes the provided native command.
+ * @param command native command name
+ * @param argv arguments vector
+ * @return nothing if success (because current process is stopped),
+ * error code if error occurred
+ */
+int execna(const char *command, char *const *argv);
+
+void execute(const char *command, char *const *argv) {
+    if (isNative(command)) {
+        execna(command, argv);
+        printf("Error executing native command!\n");
+    } else {
+        execvp(command, argv);
+        printf("Command not found!\n");
+    }
+}
+
+int execna(const char *command, char *const *argv) {
+    int completionStatus = OK;
+    if (GLS) completionStatus = gls(argv);
+    else if (GCAT) printf("gcat not implemented yet\n");
+
+    if (completionStatus == OK) exit(getpid()); // if everything is ok, exit the child process
+
+    return completionStatus; // if error occurred return error code
+}
 
 #endif //G_SHELL_LIGHT_MAIN_HEADER_HPP

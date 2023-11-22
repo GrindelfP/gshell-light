@@ -18,51 +18,57 @@
 
 #include <sys/dir.h>
 #include "mainHeader.h"
+#include "glsMode.h"
 
 #define CURRENT_DIRECTORY "."
 
-int isArgument(const char *argument);
-
-int showHiddenFiles(char argv[ARG_SIZE][CMD_SIZE]) {
-    return contains(argv, "-a");
-}
-
-int isHiddenFile(char *fileName) {
-    return fileName[0] == '.' || strcmp(fileName, "..") == 0;
-}
-
+void defineGlsMode(char *const *argv, MODEV glsModeVector);
 
 /**
- * GShellLight: gls command. Similar to regular shell ls command.
+ * Prints the list of files in the directory
+ * (if path not provided - current directory).
  * @param argv arguments vector
- * @return 0 if success
+ * @return 0 if success, -1 if error occurred
  */
 int gls(char *const *argv) {
+    printf("gls\n");
 
-    char *directoryName;
+    int functionState = 0;
 
-    if (argv[1][0] != '\0' && !isArgument(argv[1])) directoryName = argv[1];
-    else directoryName = CURRENT_DIRECTORY;
+    MODEV glsModeVector;
+    defineGlsMode(argv, glsModeVector);
+    char *path;
+    if (glsModeVector[0] == CLEAN) path = argv[1];
+    else path = CURRENT_DIRECTORY;
 
-    DIR *directory = opendir(directoryName);
-    struct dirent *contentEntry = readdir(directory);
+    printf("Path: %s\n", path);
+    for (int i = 0; i < MODEV_SIZE; ++i) {
+        printf("%d\n", glsModeVector[i]);
+    }
 
-    while (contentEntry != NULL) {
-        if (!showHiddenFiles(argv) && isHiddenFile(contentEntry->d_name)) {
-            contentEntry = readdir(directory);
-        } else {
+    DIR *directory = opendir(path);
+    if (directory == NULL) {
+        printf("Error opening directory!\n");
+        functionState = -1;
+    } else {
+        struct dirent *contentEntry = readdir(directory);
+        while (contentEntry != NULL) {
             printf("%s\n", contentEntry->d_name);
             contentEntry = readdir(directory);
         }
+        closedir(directory);
     }
 
-    closedir(directory);
-
-    return 0;
+    return functionState;
 }
 
-int isArgument(const char *argument) {
-    return argument[0] == '-';
+void defineGlsMode(char *const *argv, MODEV glsModeVector) {
+    // Check for the provided path
+    if (argv[1][0] != '-') glsModeVector[0] = CLEAN;
+    else glsModeVector[0] = UNPATHED;
+
+    if (contains(argv, "-a")) glsModeVector[1] = ALL;
+    if (contains(argv, "-r")) glsModeVector[2] = RECURSIVE;
 }
 
 #endif //G_SHELL_LIGHT_GLS_HPP

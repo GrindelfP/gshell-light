@@ -34,23 +34,3 @@ int main() {
 
     return 0;
 }
-
-void execute(const char *command, char * const *argv) {
-    if (isNative(command)) {
-        execna(command, argv);
-        printf("Error executing native command!\n");
-    } else {
-        execvp(command, argv);
-        printf("Command not found!\n");
-    }
-}
-
-int execna(const char *command, char * const *argv) {
-    int completionStatus = OK;
-    if (GLS) completionStatus = gls(argv);
-    else if (GCAT) printf("gcat not implemented yet\n");
-
-    if (completionStatus == OK) exit(getpid()); // if everything is ok, exit the child process
-
-    return completionStatus; // if error occurred return error code
-}
