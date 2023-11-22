@@ -27,12 +27,15 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-#define ERROR (-1)
-#define perpetual while (1)
+#define while_is_used while (1)
 #define EXIT "exit"
+#define STOP_NOW strcmp(commands[0], EXIT) == 0
+#define STOP {printf("Stopping the program...\n"); break;}
+#define OK 0
+#define ERROR (-1)
+#define WAIT_FOR_CHILD wait(NULL)
 
-int executeNative(char commands[ARG_SIZE][CMD_SIZE]);
 
-int error(char *commandName);
+int executeNative(char *const *commands);
 
 #endif //G_SHELL_LIGHT_MAIN_HEADER_HPP

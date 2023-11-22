@@ -17,55 +17,36 @@
 
 int main() {
 
-    perpetual {
+    while_is_used {
         char commands[ARG_SIZE][CMD_SIZE];
         char *trimmedCommands[TRIMMED_ARG_SIZE];
         getArgumentsVector(commands);
 
         trim(commands, trimmedCommands);
 
-        if (contains(commands, EXIT)) {
-            printf("Stopping the program...\n");
-            break;
-        }
+        if (STOP_NOW) STOP;
 
-        int streamRedirection = defineStreamRedirection(commands);
-
-        printf("Stream redirection: %d\n", streamRedirection);
+        // int streamRedirection = defineStreamRedirection(commands);
 
         if (!fork()) {
-            if (streamRedirection) {
-                int f1 = open(commands[streamRedirection + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
-                dup2(f1, 1);
-                removeRedirectionArguments(commands, streamRedirection);
-            }
-
-            if (isNative(commands)) {
-                executeNative(commands);
+            if (isNative(trimmedCommands[0])) {
+                executeNative(NULL);
             } else {
                 execvp(trimmedCommands[0], trimmedCommands);
                 printf("Command not found!\n");
             }
-        } else {
-            wait(NULL);
-        }
+        } else WAIT_FOR_CHILD;
     }
 
     return 0;
 }
 
-int executeNative(char commands[ARG_SIZE][CMD_SIZE]) {
+int executeNative(char *const *commands) {
+    int completionStatus = OK;
     char *mainCommand = commands[0];
     if (strcmp(mainCommand, nativeCommands[0]) == 0) {
-        int glsResult = gls(commands);
-        if (glsResult == ERROR) return error(commands[0]);
+        completionStatus = gls(commands);
     }
 
-    return 0;
-}
-
-int error(char *commandName) {
-    printf("Error occurred while completing %s command\n", commandName);
-
-    return -1;
+    return completionStatus;
 }

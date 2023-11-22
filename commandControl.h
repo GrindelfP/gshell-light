@@ -26,7 +26,20 @@
 #define SEPARATOR " "
 
 /**
- * Trims the commands array to the first empty element
+ * Trims the commands array to the first empty element.
+ *
+ * <p><strong>Example:</strong> if the commands array is:</p>
+ * {0: ls
+ * 1: -a
+ * 2: -l
+ * 3: \0
+ * ...
+ * 9: \0}
+ * <p>the trimmedCommands array will be:<p>
+ * {0: ls
+ * 1: -a
+ * 2: -l
+ * 3: \0}
  * @param commands vector of arguments
  * @param trimmedCommands trimmed vector of arguments
  * @return 0 if success
@@ -39,7 +52,6 @@ int trim(char commands[ARG_SIZE][CMD_SIZE], char *trimmedCommands[ARG_SIZE]) {
         }
         trimmedCommands[i] = commands[i];
     }
-    trimmedCommands[i] = NULL;
 
     return 0;
 }
@@ -95,15 +107,15 @@ int getArgumentsVector(char commands[ARG_SIZE][CMD_SIZE]) {
 }
 
 /**
- * Check if the argument is in the list of native commands
- * (the commands native to GShellLight)
- * @param commands vector of arguments
+ * Check if the argument is in the list of native command
+ * (the command native to GShellLight)
+ * @param command vector of arguments
  * @return 1 if the argument is in the list, 0 otherwise
  */
-int isNative(char commands[ARG_SIZE][CMD_SIZE]) {
+int isNative(char command[CMD_SIZE]) {
     int isNative = 0;
     for (int i = 0; i < NATIVE_CMDS_SIZE; ++i) {
-        if (strcmp(commands[0], nativeCommands[i]) == 0) {
+        if (strcmp(command, nativeCommands[i]) == 0) {
             isNative = 1;
             break;
         }

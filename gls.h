@@ -24,7 +24,7 @@
 int isArgument(const char *argument);
 
 int showHiddenFiles(char argv[ARG_SIZE][CMD_SIZE]) {
-    return contains(argv, "-a") || contains(argv, "-la");
+    return contains(argv, "-a");
 }
 
 int isHiddenFile(char *fileName) {
@@ -37,7 +37,7 @@ int isHiddenFile(char *fileName) {
  * @param argv arguments vector
  * @return 0 if success
  */
-int gls(char argv[ARG_SIZE][CMD_SIZE]) {
+int gls(char *const *argv) {
 
     char *directoryName;
 

@@ -10,11 +10,11 @@
 
 
 cmake_minimum_required(VERSION 3.26)
-project(GShellLight)
+project(gshell-light)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(GShellLight main.c
+add_executable(gshell-light main.c
         mainHeader.h
         commandControl.h
         fileControl.h
