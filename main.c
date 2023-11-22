@@ -24,29 +24,33 @@ int main() {
 
         trim(commands, trimmedCommands);
 
-        if (STOP_NOW) STOP;
+        if (STOP_NOW) STOP
 
         // int streamRedirection = defineStreamRedirection(commands);
 
-        if (!fork()) {
-            if (isNative(trimmedCommands[0])) {
-                executeNative(NULL);
-            } else {
-                execvp(trimmedCommands[0], trimmedCommands);
-                printf("Command not found!\n");
-            }
-        } else WAIT_FOR_CHILD;
+        if (!fork()) execute(trimmedCommands[0], trimmedCommands);
+        else WAIT_FOR_CHILD;
     }
 
     return 0;
 }
 
-int executeNative(char *const *commands) {
-    int completionStatus = OK;
-    char *mainCommand = commands[0];
-    if (strcmp(mainCommand, nativeCommands[0]) == 0) {
-        completionStatus = gls(commands);
+void execute(const char *command, char * const *argv) {
+    if (isNative(command)) {
+        execna(command, argv);
+        printf("Error executing native command!\n");
+    } else {
+        execvp(command, argv);
+        printf("Command not found!\n");
     }
+}
 
-    return completionStatus;
+int execna(const char *command, char * const *argv) {
+    int completionStatus = OK;
+    if (GLS) completionStatus = gls(argv);
+    else if (GCAT) printf("gcat not implemented yet\n");
+
+    if (completionStatus == OK) exit(getpid()); // if everything is ok, exit the child process
+
+    return completionStatus; // if error occurred return error code
 }

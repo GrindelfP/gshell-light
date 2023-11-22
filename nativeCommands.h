@@ -17,6 +17,11 @@
 
 #define NATIVE_CMDS_SIZE 2
 
+#define gls_name "gls"
+#define gcat_name "gcat"
+#define GLS strcmp(command, gls_name) == 0
+#define GCAT strcmp(command, gcat_name) == 0
+
 char nativeCommands[NATIVE_CMDS_SIZE][CMD_SIZE] = {"gls", "gcat"};
 
 #endif //G_SHELL_LIGHT_NATIVE_COMMANDS_HPP

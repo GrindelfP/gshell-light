@@ -35,7 +35,8 @@
 #define ERROR (-1)
 #define WAIT_FOR_CHILD wait(NULL)
 
+int execna(const char *command, char * const *argv);
 
-int executeNative(char *const *commands);
+void execute(const char *command, char * const *argv);
 
 #endif //G_SHELL_LIGHT_MAIN_HEADER_HPP

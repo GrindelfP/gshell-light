@@ -112,7 +112,7 @@ int getArgumentsVector(char commands[ARG_SIZE][CMD_SIZE]) {
  * @param command vector of arguments
  * @return 1 if the argument is in the list, 0 otherwise
  */
-int isNative(char command[CMD_SIZE]) {
+int isNative(const char *command) {
     int isNative = 0;
     for (int i = 0; i < NATIVE_CMDS_SIZE; ++i) {
         if (strcmp(command, nativeCommands[i]) == 0) {
